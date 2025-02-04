@@ -1,21 +1,21 @@
 graph [
 	comment "This is a sample graph"
-	directed 1
+	directed 0
 	id 42
 	label "Hello, I am a graph"
 	node [
 		id 1
-		label "node 1"
+		label "1"
 		thisIsASampleAttribute 42
 	]
 	node [
 		id 2
-		label "node 2"
+		label "2"
 		thisIsASampleAttribute 43
 	]
 	node [
 		id 3
-		label "node 3"
+		label "3"
 		thisIsASampleAttribute 44
 	]
 	edge [
