@@ -20,10 +20,12 @@ def BFS(graph, root):
     root = str(root)
     graph = nx.bfs_tree(graph, root)
     nx.draw(graph, nx.bfs_layout(graph, root), with_labels=True)
+    plt.suptitle("BFS Tree")
     plt.show()
     
 def plotGraph(graph):
     nx.draw(graph, with_labels=True)
+    plt.suptitle("Graph")
     plt.show()
 
 def main():
