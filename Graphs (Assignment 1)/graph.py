@@ -18,7 +18,11 @@ def erdos_renyi_graph(n, c):
 
 def BFS(graph, root):
     root = str(root)
-    graph = nx.bfs_tree(graph, root)
+    try:
+        graph = nx.bfs_tree(graph, root)
+    except:
+        print("Error: Invalid root node or graph is empty.")
+        return
     nx.draw(graph, nx.bfs_layout(graph, root), with_labels=True)
     plt.suptitle("BFS Tree")
     plt.show()
@@ -32,7 +36,11 @@ def main():
     args = parser.parse_args()
     if (args.input):
         input = args.input
-        inputGraph = nx.read_gml(input)
+        try:
+            inputGraph = nx.read_gml(input)
+        except:
+            print("Error: Invalid input file")
+            return
     if (args.create_random_graph):
         nodes = int(args.create_random_graph[0])
         constant = args.create_random_graph[1]
