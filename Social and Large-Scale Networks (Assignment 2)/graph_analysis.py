@@ -40,6 +40,13 @@ def plotGraph(graph, args):
             p = (c - cluster_min) / (cluster_max - cluster_min)
             size = min_pixel + (max_pixel - min_pixel) * p
             node_sizes.append(size)
+        node_colors = []
+        degree_values = list(dict(graph.degree()).values())
+        max_degree = max(degree_values)
+        for d in degree_values:
+            s = (d / max_degree)
+            node_colors.append((s, 0, 1))
+            
     if 'N' in args.upper():
         #neighborhood overlap
         exit
@@ -47,7 +54,7 @@ def plotGraph(graph, args):
         #color nodes according to specified attributes
         exit
 
-    nx.draw(graph, node_size=node_sizes, with_labels=True, pos=nx.spring_layout(graph, k=0.15, iterations=20))
+    nx.draw(graph, node_size=node_sizes, node_color=node_colors, with_labels=True, pos=nx.spring_layout(graph, k=0.15, iterations=20))
     plt.suptitle("Graph")
     plt.show()
 
