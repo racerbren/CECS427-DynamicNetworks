@@ -1,6 +1,7 @@
 import networkx as nx
 import matplotlib.pyplot as plt
 import math
+import sys
 import argparse
 
 parser = argparse.ArgumentParser(description='Graph Parser')
@@ -19,16 +20,22 @@ parser.add_argument("--verify_balanced_graph", action="store_true",
                                                     "A balanced graph is one where the signs on the edges are consistent " 
                                                     "with the node attributes.\n")
 parser.add_argument("--output", type=str, help="Output file to store the graph.\n")
-    
+
+def partition(graph, n):
+    while(nx.number_connected_components(graph) < n):
+        edge = max(nx.edge_betweenness_centrality(graph).items(), key=lambda x: x[1])[0]
+        graph.remove_edge(*edge)
+
 def plotGraph(graph):
     nx.draw(graph, with_labels=True)
     plt.suptitle("Graph")
     plt.show()
 
 def main():
+    graph = nx.read_gml(sys.argv[1])
     args = parser.parse_args()
     if (args.components):
-        exit
+        partition(graph, args.components)
     if (args.plot):
         #plotGraph(graph)
         exit
