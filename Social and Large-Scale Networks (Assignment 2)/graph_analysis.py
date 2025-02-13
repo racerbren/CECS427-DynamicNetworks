@@ -5,6 +5,7 @@ import sys
 import argparse
 
 parser = argparse.ArgumentParser(description='Graph Parser')
+parser.add_argument('input_file',  type=argparse.FileType('r'), help='Path to the input file')
 parser.add_argument("--components", type=int, help="Specifies that the graph should be partitioned into n components. " 
                                                     "This divides the graph into n subgraphs or clusters.\n")
 parser.add_argument("--plot", type=str, help="Plot the graph. " 
@@ -26,8 +27,27 @@ def partition(graph, n):
         edge = max(nx.edge_betweenness_centrality(graph).items(), key=lambda x: x[1])[0]
         graph.remove_edge(*edge)
 
-def plotGraph(graph):
-    nx.draw(graph, with_labels=True)
+def plotGraph(graph, args):
+    if 'C' in args.upper():
+        dict_clustering_coefficients = nx.clustering(graph)
+        clustering_coefficients = list(dict_clustering_coefficients.values())
+        cluster_min = min(clustering_coefficients)
+        cluster_max = max(clustering_coefficients)
+        min_pixel = 100
+        max_pixel = 500
+        node_sizes = []
+        for c in clustering_coefficients:
+            p = (c - cluster_min) / (cluster_max - cluster_min)
+            size = min_pixel + (max_pixel - min_pixel) * p
+            node_sizes.append(size)
+    if 'N' in args.upper():
+        #neighborhood overlap
+        exit
+    if 'P' in args.upper():
+        #color nodes according to specified attributes
+        exit
+
+    nx.draw(graph, node_size=node_sizes, with_labels=True, pos=nx.spring_layout(graph, k=0.15, iterations=20))
     plt.suptitle("Graph")
     plt.show()
 
@@ -37,8 +57,7 @@ def main():
     if (args.components):
         partition(graph, args.components)
     if (args.plot):
-        #plotGraph(graph)
-        exit
+        plotGraph(graph, args.plot)
     if (args.verify_homophily):
         exit
     if (args.verify_balanced_graph):
